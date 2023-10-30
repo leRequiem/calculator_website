@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Комбинаторный калькулятор</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+<div class="calculator">
+    <div class="calculator__header">
+        <section class="calculator__header-formulas">
+            <img src="icons/first_image.png" alt="" class="img">
+        </section>
+        <section class="calculator__header-urn-models">
+            <div class="image-container">
+                <img src="icons/second_image.png" alt="" class="img">
+                <div class="image-text">Урновая модель №1</div>
+            </div>
+            <div class="image-container">
+                <img src="icons/third_image.png" alt="">
+                <div class="image-text">Урновая модель №2</div>
+            </div>
+        </section>
+    </div>
+    <div class="calculator__main">
+        <div class="calculator__main-input-container">
+            <label for="n">n: </label>
+            <input type="text" id="n">
+            <label for="k">k: </label>
+            <input type="text" id="k">
+            <br>
+            <label for="m">m: </label>
+            <input type="text" id="m">
+            <label for="r">r: </label>
+            <input type="text" id="r">
+        </div>
+        <div class="calculator__main-buttons">
+            <button class="button" id="button__placement-without-repetition">Размещение без повторений</button>
+            <button class="button" id="button__placement-with-repetition">Размещение с повторениями</button>
+            <button class="button" id="button__permutation-without-repetition">Перестановка без повторений</button>
+            <button class="button" id="button__permutation-with-repetition">Перестановка с повторениями</button>
+            <button class="button" id="button__combination-without-repetition">Сочетание без повторений</button>
+            <button class="button" id="button__combination-with-repetition">Сочетание с повторениями</button>
+            <button class="button" id="button__urn-model-one">Урновая модель №1</button>
+            <button class="button" id="button__urn-model-two">Урновая модель №2</button>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer__result-container">
+            <p id="result">Результат: -</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
