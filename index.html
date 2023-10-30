@@ -15,25 +15,30 @@
         <section class="calculator__header-urn-models">
             <div class="image-container">
                 <img src="icons/second_image.png" alt="" class="img">
-                <div class="image-text">Урновая модель №1</div>
+                <div class="image-text">Урновая модель №1 (n>m>k)</div>
             </div>
             <div class="image-container">
                 <img src="icons/third_image.png" alt="">
-                <div class="image-text">Урновая модель №2</div>
+                <div class="image-text">Урновая модель №2 (n>m>k>r)</div>
             </div>
         </section>
     </div>
     <div class="calculator__main">
         <div class="calculator__main-input-container">
-            <label for="n">n: </label>
-            <input type="text" id="n">
-            <label for="k">k: </label>
-            <input type="text" id="k">
-            <br>
-            <label for="m">m: </label>
-            <input type="text" id="m">
-            <label for="r">r: </label>
-            <input type="text" id="r">
+            <p class="calculator__main--inputs-row">
+                <label for="n"></label>
+                <input class= "input" type="text" id="n" placeholder="Введите n (общее кол-во чисел)">
+                <label for="k"></label>
+                <input class= "input" type="text" id="k" placeholder="Введите k">
+                <label for="k1...kn"></label>
+                <input class= "input" type="text" id="k1...kn" placeholder="k1...kn (кол-во повторов через пробел)">
+            </p>
+            <p class="calculator__main--inputs-row">
+                <label for="m"></label>
+                <input class= "input" type="text" id="m" placeholder="Введите m">
+                <label for="r"></label>
+                <input class= "input" type="text" id="r" placeholder="Введите r">
+            </p>
         </div>
         <div class="calculator__main-buttons">
             <button class="button" id="button__placement-without-repetition">Размещение без повторений</button>

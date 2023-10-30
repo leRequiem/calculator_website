@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const kInput = document.getElementById("k");
     const mInput = document.getElementById("m");
     const rInput = document.getElementById("r");
+    const k1knInput = document.getElementById("k1...kn");
     const buttons = document.querySelectorAll(".calculator__main-buttons button");
     const resultText = document.getElementById("result");
 
@@ -18,20 +19,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function handleButtonClick(buttonId) {
-        const n = Number(nInput.value);
-        const k = Number(kInput.value);
-        const m = Number(mInput.value);
-        const r = Number(rInput.value);
+        let n = Number(nInput.value);
+        let k = Number(kInput.value);
+        let m = Number(mInput.value);
+        let r = Number(rInput.value);
+        let kArray = k1knInput.value.trim().split(/\s+/).map(Number);
+        let kSum = sumArrayElements(kArray);
+        let res;
 
         // Дополнительные проверки в зависимости от нажатой кнопки
         switch (buttonId) {
             case "button__placement-without-repetition":
             case "button__placement-with-repetition":
             case "button__permutation-without-repetition":
-            case "button__permutation-with-repetition":
-            case "button__combination-with-repetition":
             case "button__combination-without-repetition":
+            case "button__combination-with-repetition":
                 if (isNaN(n) || isNaN(k) || n < 0 || k < 0 || k >= n) {
+                    resultText.textContent = "Пожалуйста, введите корректные данные";
+                    return;
+                }
+                break;
+            case "button__permutation-with-repetition":
+                if (isNaN(n) || isNaN(kSum) || n < 0 || kSum !== n) {
                     resultText.textContent = "Пожалуйста, введите корректные данные";
                     return;
                 }
@@ -43,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 break;
             case "button__urn-model-two":
-                if (isNaN(n) || isNaN(m) || isNaN(k) || isNaN(r) || n < 0 || m < 0 || k < 0 || r < 0 || m >= n || k >= m || r >= k) {
+                if (isNaN(n) || isNaN(m) || isNaN(k) || isNaN(r) || n < 0 || m < 0 || k < 0 || r <= 0 || m >= n || k >= m || r >= k) {
                     resultText.textContent = "Пожалуйста, введите корректные данные";
                     return;
                 }
@@ -55,28 +64,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
         switch (buttonId) {
             case "button__placement-without-repetition":
-                resultText.textContent = calculatePlacementWithoutRepetition(n, k);
+                res = calculatePlacementWithoutRepetition(n, k);
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
             case "button__placement-with-repetition":
-                resultText.textContent = calculatePlacementWithRepetition(n, k);
+                res = calculatePlacementWithRepetition(n, k)
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
             case "button__permutation-without-repetition":
-                resultText.textContent = calculatePermutationWithoutRepetition(n);
+                res = calculatePermutationWithoutRepetition(n);
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
             case "button__permutation-with-repetition":
-                resultText.textContent = calculatePermutationWithRepetition(n, k);
+                res = calculatePermutationWithRepetition(n, kArray);
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
             case "button__combination-without-repetition":
-                resultText.textContent = calculateCombinationWithoutRepetition(n, k);
+                res = calculateCombinationWithoutRepetition(n, k);
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
             case "button__combination-with-repetition":
-                resultText.textContent = calculateCombinationWithRepetition(n, k);
+                res = calculateCombinationWithRepetition(n, k)
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
             case "button__urn-model-one":
-                resultText.textContent = calculateUrnModelOne(n, m, k);
+                res = calculateUrnModelOne(n, m, k)
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
             case "button__urn-model-two":
-                resultText.textContent = calculateUrnModelTwo(n, m, k, r);
+                res = calculateUrnModelTwo(n, m, k, r);
+                resultText.textContent = res;
+                sendResultToServer(res);
                 break;
         }
     }
@@ -88,14 +113,14 @@ document.addEventListener("DOMContentLoaded", function () {
             result *= i;
         }
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return result;
     }
 
     function calculatePlacementWithRepetition(n, k) {
         // Расчет размещения с повторениями: n^k
         const result = Math.pow(n, k);
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return  result;
     }
 
     function calculatePermutationWithoutRepetition(n) {
@@ -105,28 +130,29 @@ document.addEventListener("DOMContentLoaded", function () {
             result *= i;
         }
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return result;
     }
 
-    function calculatePermutationWithRepetition(n, k) {
-        // Расчет перестановки с повторениями: n^k
-        const result = Math.pow(n, k);
+    function calculatePermutationWithRepetition(n, kArray) {
+        // Расчет перестановки с повторениями: n! / (k1! * k2! * ... * kn!)
+        const kFactorial = kArray.reduce((total, k) => total * factorial(k), 1);
+        const result = factorial(n) / kFactorial;
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return result;
     }
 
     function calculateCombinationWithoutRepetition(n, k) {
         // Расчет сочетания без повторений: n! / (k! * (n - k)!)
         let result = factorial(n) / (factorial(k) * factorial(n - k));
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return result;
     }
 
     function calculateCombinationWithRepetition(n, k) {
         // Расчет сочетания с повторениями: (n + k - 1)! / (k! * (n - 1)!)
         let result = factorial(n + k - 1) / (factorial(k) * factorial(n - 1));
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return result;
     }
 
     function calculateUrnModelOne(n, m, k) {
@@ -135,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const denominator = calculateCombinationWithoutRepetition(n, k);
         const result = (numerator / denominator).toFixed(5);
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return result;
     }
 
     function calculateUrnModelTwo(n, m, k, r) {
@@ -144,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const denominator = calculateCombinationWithoutRepetition(n, k);
         const result = (numerator / denominator).toFixed(5);
         saveResultToLocalStorage(result);
-        return "Результат: " + result;
+        return result;
     }
 
     function saveResultToLocalStorage(result) {
@@ -157,5 +183,33 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             return num * factorial(num - 1);
         }
+    }
+
+    function sumArrayElements(arr) {
+        if (Array.isArray(arr)) {
+            return arr.reduce((sum, element) => sum + element, 0);
+        } else
+            return NaN;
+    }
+
+    function sendResultToServer(result) {
+        const formValues = {
+            result: result
+        };
+
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body: JSON.stringify(formValues)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Ваш ответ отправлен!');
+                } else {
+                    throw new Error('Ошибка при отправке данных');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 });
