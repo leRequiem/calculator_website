@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             case "button__permutation-without-repetition":
             case "button__combination-without-repetition":
             case "button__combination-with-repetition":
-                if (isNaN(n) || isNaN(k) || n < 0 || k < 0 || k >= n) {
+                if (isNaN(n) || isNaN(k) || n < 0 || k < 0 || k > n) {
                     resultText.textContent = "Пожалуйста, введите корректные данные";
                     return;
                 }
@@ -46,13 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 break;
             case "button__urn-model-one":
-                if (isNaN(n) || isNaN(m) || isNaN(k) || n < 0 || m < 0 || k < 0 || m >= n || k >= m) {
+                if (isNaN(n) || isNaN(m) || isNaN(k) || n < 0 || m < 0 || k < 0 || m > n || k > m) {
                     resultText.textContent = "Пожалуйста, введите корректные данные";
                     return;
                 }
                 break;
             case "button__urn-model-two":
-                if (isNaN(n) || isNaN(m) || isNaN(k) || isNaN(r) || n < 0 || m < 0 || k < 0 || r <= 0 || m >= n || k >= m || r >= k) {
+                if (isNaN(n) || isNaN(m) || isNaN(k) || isNaN(r) || n < 0 || m < 0 || k < 0 || r <= 0 || m > n || k > m || r > k) {
                     resultText.textContent = "Пожалуйста, введите корректные данные";
                     return;
                 }
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Ваш ответ отправлен!');
+                    alert('Ваш ответ сохранен!');
                 } else {
                     throw new Error('Ошибка при отправке данных');
                 }
